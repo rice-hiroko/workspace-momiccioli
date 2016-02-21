@@ -68,6 +68,7 @@ cpdefine("inline:com-chilipeppr-workspace-momiccioli", ["chilipeppr_ready"], fun
                 setTimeout(function() { $(window).trigger('resize'); }, 100);
             });
             
+            this.loadEagleWidget();
             this.loadTemplateWidget();
             
             // Create our workspace upper right corner triangle menu
@@ -170,6 +171,29 @@ cpdefine("inline:com-chilipeppr-workspace-momiccioli", ["chilipeppr_ready"], fun
                 }
             );
         },
+        /**
+         * Load the eagle test widget via chilipeppr.load()
+         */
+        loadEagleWidget: function(callback) {
+            var that = this;
+            // Inject new div to contain widget or use an existing div with an ID
+            $("body").append('<' + 'div id="myDivWidgetEagle"><' + '/div>');
+
+            chilipeppr.load(
+              "#com-eagle-widget-instance",
+              "http://raw.githubusercontent.com/momiccioli/widget-eagle/master/auto-generated-widget.html",
+              function() {
+                // Callback after widget loaded into #myDivWidgetInsertedInto
+                cprequire(
+                  ["inline:com-chilipeppr-widget-eagle"], // the id you gave your widget
+                  function(mywidget) {
+                    // Callback that is passed reference to your newly loaded widget
+                    console.log("My widget just got loaded.", mywidget);
+                    mywidget.init();
+                  }
+                );
+              }
+            );        },
         /**
          * Load the Console widget via chilipeppr.load()
          */
